@@ -25,7 +25,7 @@ class Backend
     @loop.quit
   end
   
-  def mainLoop  
+  def mainLoop(callback)
     # create the program's main loop
     @loop = GLib::MainLoop.new(nil, false)
 
@@ -34,10 +34,12 @@ class Backend
     bus.add_watch do |bus, message|
       case message.type
       when Gst::Message::EOS
-        @loop.quit
+        callback.call()
+        #@loop.quit
       when Gst::Message::ERROR
         p message.parse
-        @loop.quit
+        callback.call()
+        #@loop.quit
       end
       true
     end

@@ -11,6 +11,8 @@ def callbackMethod(inRequest)
                   @player.play(requestParams[1])
             elsif(requestParams[0] == "stop")
                   @player.stop
+            elsif(requestParams[0] == "add")
+                  @player.addSongToPlaylist(requestParams[1])
             end
       end
 end

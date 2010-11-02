@@ -2,9 +2,6 @@
 require 'socket'
 
 class NetServer < TCPServer
-#  attr_accessor :message
-#  @message = Message.new
-
   def Initialize()
   end
 
@@ -17,8 +14,6 @@ class NetServer < TCPServer
         response = "OK"
         s.write(response)
         s.close
- #       @message = Message.new
-#        @message.fromString(request)
         callback.call(request)
       end
    end
