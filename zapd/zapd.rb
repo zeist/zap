@@ -1,11 +1,18 @@
 #!/usr/bin/env ruby
-require 'serversocket'
-require 'player'
+load File.dirname(__FILE__)+"/serversocket.rb"
+load File.dirname(__FILE__)+"/player.rb"
 
 @player = Player.new
 
 def callbackMethod(inRequest)
-  @player.play(inRequest)
+      requestParams = inRequest.split("#")
+      if(requestParams.size > 0)
+            if(requestParams[0] == "play")
+                  @player.play(requestParams[1])
+            elsif(requestParams[0] == "stop")
+                  @player.stop
+            end
+      end
 end
 
 server = NetServer.new('0.0.0.0',3000)

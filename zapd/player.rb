@@ -1,6 +1,6 @@
 #!/usr/bin/env/ruby
 
-require 'backend'
+load File.dirname(__FILE__)+"/backend.rb"
   
 class Player
   
