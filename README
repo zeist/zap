@@ -1,0 +1,1 @@
+Music Player written in ruby, currently you just run zapd.rb in a terminal and then you can send songs to it by running zapc.rb with the song path and filename as an argument.
