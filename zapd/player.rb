@@ -2,6 +2,8 @@
 
 load File.dirname(__FILE__)+"/backend.rb"
 load File.dirname(__FILE__)+"/playlist.rb"
+load File.dirname(__FILE__)+"/songinfo.rb"
+require 'taglib'
   
 class Player
   
@@ -11,12 +13,13 @@ class Player
   end
   
   def play(inFile)
+    @mCurrentSong = SongInfo.new(inFile)
     if(inFile!="")
-      @backend.playFile(inFile)
+      @backend.playFile(@mCurrentSong.toFilePath())
     else
       @backend.play
-    end  
-    @backend.mainLoop(method(:completed))
+    end
+    @backend.mainLoop(method(:completed))      
   end  
   
   def stop
@@ -29,6 +32,14 @@ class Player
   
   def completed
     stop
-    play(@mPlaylist.dequeue());
+    nextSong = @mPlaylist.dequeue();
+    p nextSong
+    if(!nextSong.nil?)
+      play(nextSong)
+    end
   end
+  def getCurrentSong
+    return @mCurrentSong
+  end
+  
 end

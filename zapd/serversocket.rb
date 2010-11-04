@@ -11,10 +11,9 @@ class NetServer < TCPServer
         p "Connection accepted from server #{s.inspect}"
         request = s.readline.gsub(/\n$/, '')
         p "Request was #{request}"
-        response = "OK"
+        response = callback.call(request)
         s.write(response)
         s.close
-        callback.call(request)
       end
    end
   end

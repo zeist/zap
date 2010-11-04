@@ -14,10 +14,7 @@ class ClientSocket
   end
   
   def sendCommand(inParams)
-	message = inParams[0]      
-    if(inParams.size > 1)
-      message += "#file://"+inParams[1];
-    end
+	message = inParams.join("#")
     message += "\n"
 	  return send_message(message)       
   end

@@ -9,10 +9,15 @@ def callbackMethod(inRequest)
       if(requestParams.size > 0)
             if(requestParams[0] == "play")
                   @player.play(requestParams[1])
+                  return "Playing " + requestParams[1]
             elsif(requestParams[0] == "stop")
                   @player.stop
+                  return "Stopped"
             elsif(requestParams[0] == "add")
                   @player.addSongToPlaylist(requestParams[1])
+                  return "Added " + requestParams[1]
+            elsif(requestParams[0] == "info")
+                  return @player.getCurrentSong().toString()
             end
       end
 end

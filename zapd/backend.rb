@@ -7,20 +7,31 @@ class Backend
   end
   
   def playFile(inFile)
+    if(@mDebug)
+      p "Play File " + inFile
+    end
     @player.uri = inFile
     play
   end
   
   def play
+    if(@mDebug)
+      p "Play"
+    end
     @player.play
   end
   
   def pause
+    if(@mDebug)
+      p "Pause"
+    end
     @player.pause
   end
   
   def stop
-    p "Shutting down"
+    if(@mDebug)
+      p "Stop"
+    end
     @player.stop
     @loop.quit
   end
@@ -39,7 +50,7 @@ class Backend
       when Gst::Message::ERROR
         p message.parse
         callback.call()
-        #@loop.quit
+        #@loop.quit 
       end
       true
     end
