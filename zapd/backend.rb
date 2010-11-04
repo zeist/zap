@@ -4,6 +4,7 @@ class Backend
   attr_accessor :player
   def initialize
     @player = Gst::ElementFactory.make("playbin2")
+    @mDebug = true;
   end
   
   def playFile(inFile)
@@ -56,5 +57,9 @@ class Backend
     end
     play
     @loop.run    
+  end
+  
+  def getState
+    return @player.get_state
   end
 end

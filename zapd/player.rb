@@ -10,16 +10,21 @@ class Player
   def initialize
     @backend = Backend.new
     @mPlaylist = Playlist.new
+    @backendThread = nil
   end
   
   def play(inFile)
-    @mCurrentSong = SongInfo.new(inFile)
     if(inFile!="")
-      @backend.playFile(@mCurrentSong.toFilePath())
+      @mCurrentSong = SongInfo.new(inFile)
+      Thread.new do
+        p "New Thread"
+        @backend.playFile(@mCurrentSong.toFilePath())
+        @backend.mainLoop(method(:completed))      
+      end
     else
-      @backend.play
+        p "resuming"
+        @backend.play
     end
-    @backend.mainLoop(method(:completed))      
   end  
   
   def stop
@@ -30,10 +35,13 @@ class Player
     @mPlaylist.enqueue(inFile);
   end
   
+  def pause
+    @backend.pause
+  end
+  
   def completed
     stop
     nextSong = @mPlaylist.dequeue();
-    p nextSong
     if(!nextSong.nil?)
       play(nextSong)
     end
