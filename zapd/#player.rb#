@@ -3,7 +3,6 @@
 load File.dirname(__FILE__)+"/backend.rb"
 load File.dirname(__FILE__)+"/playlist.rb"
 load File.dirname(__FILE__)+"/songinfo.rb"
-load File.dirname(__FILE__)+"/lastfm.rb"
 require 'taglib'
   
 class Player
@@ -11,13 +10,7 @@ class Player
   def initialize
     @backend = Backend.new
     @mPlaylist = Playlist.new
-    @mScrobbler = LastFM.new
     @backendThread = nil
-    Thread.new do
-      loop do
-        @mScrobbler.update(@backend.getTime)        
-      end
-    end
   end
   
   def play(inFile)
@@ -25,7 +18,6 @@ class Player
       @mCurrentSong = SongInfo.new(inFile)
       Thread.new do
         p "New Thread"
-        @mScrobbler.songChanged(@mCurrentSong)
         @backend.playFile(@mCurrentSong.toFilePath())
         @backend.mainLoop(method(:completed))   
       end
@@ -59,10 +51,6 @@ class Player
   end
   def getState
     return @backend.getState.to_s
-  end
-  
-  def getTime
-    @backend.getTime  
   end
   
 end

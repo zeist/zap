@@ -62,4 +62,10 @@ class Backend
   def getState
     return @player.get_state
   end
+  def getTime
+     q = Gst::QueryPosition.new(Gst::Format::TIME)
+      @player.query(q)
+      position = q.parse[1] / 1000000
+      return position
+  end
 end

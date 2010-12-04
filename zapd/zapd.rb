@@ -22,6 +22,7 @@ def callbackMethod(inRequest)
                   @player.addSongToPlaylist(requestParams[1])
                   return "Added " + requestParams[1]
             elsif(requestParams[0] == "info")
+                  @player.getTime()
                   return @player.getCurrentSong().toString()
             elsif(requestParams[0] == "pause")
                   @player.pause
@@ -31,12 +32,15 @@ def callbackMethod(inRequest)
 end
 
 server = NetServer.new('0.0.0.0',3000)
+Thread.new do
 server.start_server(method(:callbackMethod))
+end
 
-loop do
+
   begin
+    loop do
+    end
   rescue Interrupt
   ensure
     @player.stop
   end
-end
